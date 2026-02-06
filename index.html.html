@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Habit Improvement Plan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #718096;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .tab:hover {
+            color: #667eea;
+        }
+        
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .week-tracker {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .day-card {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .day-card.completed {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .day-card h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .day-card p {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+        
+        .complete-btn {
+            width: 100%;
+            padding: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .complete-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        
+        .day-card.completed .complete-btn {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .section {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .section h3 {
+            color: #4a5568;
+            margin: 15px 0 10px 0;
+            font-size: 1.2em;
+        }
+        
+        .section ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        
+        .section li {
+            margin: 8px 0;
+            color: #4a5568;
+        }
+        
+        .meal-plan {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .meal-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .meal-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+        
+        .progress-bar {
+            background: #e2e8f0;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .tip {
+            background: #fef5e7;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .tip strong {
+            color: #d68910;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .week-tracker {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Your Habit Improvement Plan</h1>
+        <p class="subtitle">Track your progress across fitness, learning, and nutrition</p>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Gym Sessions This Week</div>
+                <div class="stat-number" id="gymCount">0/3</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Study Progress</div>
+                <div class="stat-number" id="studyCount" style="font-size: 1.5em;">Track in journal</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Overall Progress</div>
+                <div class="stat-number" id="overallProgress">0%</div>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('gym')">💪 Gym Schedule</button>
+            <button class="tab" onclick="switchTab('study')">📚 AIMA Study Plan</button>
+            <button class="tab" onclick="switchTab('nutrition')">🥗 Nutrition & Meal Prep</button>
+            <button class="tab" onclick="switchTab('tennis')">🎾 Tennis Skills</button>
+            <button class="tab" onclick="switchTab('finance')">💰 Financial Plan</button>
+            <button class="tab" onclick="switchTab('journal')">📔 Daily Journal</button>
+            <button class="tab" onclick="switchTab('mindfulness')">🧘 Mindfulness</button>
+            <button class="tab" onclick="switchTab('tips')">💡 Quick Tips</button>
+        </div>
+        
+        <!-- GYM TAB -->
+        <div id="gym" class="tab-content active">
+            <h2>Your Weekly Gym Schedule</h2>
+            <p style="margin-bottom: 20px; color: #718096;">3 gym days + Tuesday football + Sunday tennis | Wed & Sat are fasting/rest days</p>
+            
+            <div class="week-tracker">
+                <div class="day-card" id="gym-mon">
+                    <h3>Monday</h3>
+                    <p><strong>Push Day</strong><br>Chest, Shoulders, Triceps</p>
+                    <button class="complete-btn" onclick="toggleComplete('gym-mon')">Mark Complete</button>
+                </div>
+                
+                <div class="day-card" id="gym-tue">
+                    <h3>Tuesday</h3>
+                    <p><strong>Football</strong><br>Cardio & legs covered!</p>
+                    <button class="complete-btn" onclick="toggleComplete('gym-tue')">Mark Complete</button>
+                </div>
+                
+                <div class="day-card" id="gym-wed">
+                    <h3>Wednesday</h3>
+                    <p><strong>FASTING DAY</strong><br>Rest & recovery</p>
+                    <button class="complete-btn" onclick="toggleComplete('gym-wed')">Mark Complete</button>
+                </div>
+                
+                <div class="day-card" id="gym-thu">
+                    <h3>Thursday</h3>
+                    <p><strong>Pull Day</strong><br>Back, Biceps, Rear Delts</p>
+                    <button class="complete-btn" onclick="toggleComplete('gym-thu')">Mark Complete</button>
+                </div>
+                
+                <div class="day-card" id="gym-fri">
+                    <h3>Friday</h3>
+                    <p><strong>Legs Day</strong><br>Quads, Hamstrings, Calves</p>
+                    <button class="complete-btn" onclick="toggleComplete('gym-fri')">Mark Complete</button>
+                </div>
+                
+                <div class="day-card" id="gym-sat">
+                    <h3>Saturday</h3>
+                    <p><strong>FASTING DAY</strong><br>Light activity only</p>
+                    <button class="complete-btn" onclick="toggleComplete('gym-sat')">Mark Complete</button>
+                </div>
+                
+                <div class="day-card" id="gym-sun">
+                    <h3>Sunday</h3>
+                    <p><strong>Tennis</strong><br>Active recovery & cardio</p>
+                    <button class="complete-btn" onclick="toggleComplete('gym-sun')">Mark Complete</button>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Workout Structure (45-60 mins each)</h2>
+                <p style="margin-bottom: 15px; color: #4a5568;"><strong>Note:</strong> Wed & Sat are fasting days - no gym, just rest! This actually works great for recovery.</p>
+                
+                <h3>Monday - Push Day</h3>
+                <ul>
+                    <li>Warm-up: 5 mins light cardio + arm circles</li>
+                    <li>Bench Press: 4 sets x 8-10 reps</li>
+                    <li>Overhead Press: 3 sets x 8-10 reps</li>
+                    <li>Incline Dumbbell Press: 3 sets x 10-12 reps</li>
+                    <li>Lateral Raises: 3 sets x 12-15 reps</li>
+                    <li>Tricep Dips or Pushdowns: 3 sets x 10-12 reps</li>
+                </ul>
+                
+                <h3>Thursday - Pull Day</h3>
+                <ul>
+                    <li>Warm-up: 5 mins rowing + band pull-aparts</li>
+                    <li>Deadlifts: 4 sets x 6-8 reps</li>
+                    <li>Pull-ups or Lat Pulldown: 3 sets x 8-10 reps</li>
+                    <li>Barbell or Dumbbell Rows: 3 sets x 8-10 reps</li>
+                    <li>Face Pulls: 3 sets x 12-15 reps</li>
+                    <li>Bicep Curls: 3 sets x 10-12 reps</li>
+                </ul>
+                
+                <h3>Friday - Legs Day</h3>
+                <ul>
+                    <li>Warm-up: 5 mins bike + bodyweight squats</li>
+                    <li>Squats: 4 sets x 8-10 reps</li>
+                    <li>Romanian Deadlifts: 3 sets x 10-12 reps</li>
+                    <li>Leg Press: 3 sets x 12-15 reps</li>
+                    <li>Leg Curls: 3 sets x 10-12 reps</li>
+                    <li>Calf Raises: 4 sets x 15-20 reps</li>
+                </ul>
+            </div>
+            
+            <div class="tip">
+                <strong>💡 Fasting Benefits:</strong> Your Wednesday & Saturday fasts will accelerate fat loss! Just make sure to eat enough on training days (Mon/Thu/Fri) to fuel workouts and recovery.
+            </div>
+        </div>
+        
+        <!-- STUDY TAB -->
+        <div id="study" class="tab-content">
+            <h2>📚 Complete Learning Roadmap (Feb 2026 - May 2028)</h2>
+            <p style="margin-bottom: 20px; color: #718096;">28-month journey from AI fundamentals to Imperial-ready ML engineer</p>
+            
+            <div class="section">
+                <h2>🎯 Overall Learning Goals</h2>
+                <p style="margin-bottom: 15px;">By May 2028, you will have:</p>
+                <ul>
+                    <li>✅ Mastered AI/ML fundamentals (AIMA + Andrew Ng)</li>
+                    <li>✅ Built deep learning expertise (PyTorch, TensorFlow)</li>
+                    <li>✅ Completed real-world projects for portfolio</li>
+                    <li>✅ Contributed to open-source ML projects</li>
+                    <li>✅ Started building your compliance AI agent prototype</li>
+                    <li>✅ Ready for Imperial MSc in ML & AI</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>📅 Phase-by-Phase Breakdown</h2>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #48bb78;">
+                    <h3 style="color: #48bb78; margin-bottom: 10px;">Phase 1: Foundations (Feb - Aug 2026, 6 months)</h3>
+                    <p style="margin-bottom: 10px;"><strong>Focus:</strong> AI fundamentals & classical ML</p>
+                    
+                    <h4>AIMA (Russell & Norvig) - 3 months</h4>
+                    <ul>
+                        <li><strong>Months 1-2:</strong> Chapters 1-7 (Search algorithms, CSP, adversarial search)</li>
+                        <li><strong>Month 3:</strong> Chapters 13-14 (Probability, Bayesian networks, ML basics)</li>
+                        <li><strong>Implementation:</strong> Code all major algorithms from scratch in Python</li>
+                    </ul>
+                    
+                    <h4>Andrew Ng's ML Course (Coursera) - 2 months</h4>
+                    <ul>
+                        <li>Linear/logistic regression</li>
+                        <li>Neural networks basics</li>
+                        <li>SVM, clustering, dimensionality reduction</li>
+                        <li>Complete all programming assignments</li>
+                    </ul>
+                    
+                    <h4>Project: Build Classic ML Pipeline</h4>
+                    <ul>
+                        <li>Kaggle competition (Titanic or Housing Prices)</li>
+                        <li>End-to-end: data cleaning → feature engineering → model selection → evaluation</li>
+                        <li>Document on GitHub with clear README</li>
+                    </ul>
+                    
+                    <p style="margin-top: 15px; padding: 15px; background: #f0fff4; border-radius: 8px;">
+                        <strong>Study Schedule:</strong> 5-7 hours/week | Mon/Thu/Fri: 1 hour reading/coding | Tue: 1 hour coding practice | Sat: Project work (2-3 hours)
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #4299e1;">
+                    <h3 style="color: #4299e1; margin-bottom: 10px;">Phase 2: Deep Learning (Sept 2026 - Feb 2027, 6 months)</h3>
+                    <p style="margin-bottom: 10px;"><strong>Focus:</strong> Modern deep learning & frameworks</p>
+                    
+                    <h4>Fast.ai Practical Deep Learning - 2 months</h4>
+                    <ul>
+                        <li>Computer vision (CNNs, ResNets, object detection)</li>
+                        <li>NLP (RNNs, Transformers basics)</li>
+                        <li>Tabular data with deep learning</li>
+                        <li>All hands-on, build models from day 1</li>
+                    </ul>
+                    
+                    <h4>Deep Learning Specialization (Coursera) - 3 months</h4>
+                    <ul>
+                        <li>Neural networks deep dive</li>
+                        <li>CNNs, RNNs, Attention mechanisms</li>
+                        <li>Sequence models & Transformers</li>
+                        <li>PyTorch implementation focus</li>
+                    </ul>
+                    
+                    <h4>Side Study: Mathematics for ML</h4>
+                    <ul>
+                        <li>Linear algebra (Gilbert Strang lectures - free on MIT OCW)</li>
+                        <li>Calculus refresher (3Blue1Brown videos)</li>
+                        <li>15-30 mins daily during commute/breaks</li>
+                    </ul>
+                    
+                    <h4>Project: Computer Vision Application</h4>
+                    <ul>
+                        <li>Build image classifier (custom dataset)</li>
+                        <li>Deploy as web app (Streamlit or Gradio)</li>
+                        <li>Example: UK road sign classifier, plant disease detector, etc.</li>
+                    </ul>
+                    
+                    <p style="margin-top: 15px; padding: 15px; background: #f0f9ff; border-radius: 8px;">
+                        <strong>Study Schedule:</strong> 7-10 hours/week | Increase intensity as you get more interested | Weekend projects: 3-4 hours
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #9f7aea;">
+                    <h3 style="color: #9f7aea; margin-bottom: 10px;">Phase 3: Advanced Topics (Mar - Aug 2027, 6 months)</h3>
+                    <p style="margin-bottom: 10px;"><strong>Focus:</strong> NLP, LLMs, and specialized topics</p>
+                    
+                    <h4>Natural Language Processing Specialization - 2 months</h4>
+                    <ul>
+                        <li>Word embeddings (Word2Vec, GloVe)</li>
+                        <li>Attention & Transformers (deep dive)</li>
+                        <li>BERT, GPT architecture</li>
+                        <li>Fine-tuning pre-trained models</li>
+                    </ul>
+                    
+                    <h4>Reinforcement Learning Basics - 2 months</h4>
+                    <ul>
+                        <li>Sutton & Barto book (chapters 1-6)</li>
+                        <li>Q-learning, policy gradients</li>
+                        <li>OpenAI Gym environments</li>
+                        <li>Optional: David Silver lectures</li>
+                    </ul>
+                    
+                    <h4>Research Papers Reading - Ongoing</h4>
+                    <ul>
+                        <li>Start reading 1 paper/week from arXiv</li>
+                        <li>Focus: Attention is All You Need, BERT, GPT-2/3, Constitutional AI</li>
+                        <li>Take notes, implement key ideas</li>
+                    </ul>
+                    
+                    <h4>Project: NLP Application</h4>
+                    <ul>
+                        <li>Build text classifier or sentiment analyzer</li>
+                        <li>Fine-tune BERT/GPT for specific task</li>
+                        <li>Deploy as API (FastAPI + Docker)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 15px; padding: 15px; background: #faf5ff; border-radius: 8px;">
+                        <strong>Study Schedule:</strong> 8-10 hours/week | Focus on papers + implementation | Build portfolio projects
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ed8936;">
+                    <h3 style="color: #ed8936; margin-bottom: 10px;">Phase 4: Specialization & Portfolio (Sept 2027 - May 2028, 9 months)</h3>
+                    <p style="margin-bottom: 10px;"><strong>Focus:</strong> Your compliance AI agent + portfolio building</p>
+                    
+                    <h4>Compliance AI Agent (Main Project) - Ongoing 6 months</h4>
+                    <ul>
+                        <li><strong>Research phase (2 months):</strong> Study financial compliance regulations, existing solutions</li>
+                        <li><strong>MVP development (3 months):</strong> Build core agent functionality
+                            <ul>
+                                <li>Document processing (extract requirements from regulations)</li>
+                                <li>Compliance checking logic</li>
+                                <li>Report generation</li>
+                                <li>Simple web interface</li>
+                            </ul>
+                        </li>
+                        <li><strong>Refinement (1 month):</strong> Testing, documentation, demo video</li>
+                        <li><strong>Tech stack:</strong> LangChain, OpenAI API, FastAPI, React frontend</li>
+                    </ul>
+                    
+                    <h4>Advanced Topics for Imperial Prep - 3 months</h4>
+                    <ul>
+                        <li><strong>MLOps:</strong> Docker, CI/CD, model monitoring (basic understanding)</li>
+                        <li><strong>Advanced architectures:</strong> Vision Transformers, Diffusion models (theory)</li>
+                        <li><strong>Ethics & Safety:</strong> Alignment, interpretability, bias detection</li>
+                        <li><strong>Latest papers:</strong> Read 2-3 papers/week, focus on current trends</li>
+                    </ul>
+                    
+                    <h4>Open Source Contributions - Ongoing</h4>
+                    <ul>
+                        <li>Contribute to 2-3 ML libraries (PyTorch, HuggingFace, etc.)</li>
+                        <li>Start with documentation fixes, then bug fixes</li>
+                        <li>Shows collaboration skills + deep understanding</li>
+                    </ul>
+                    
+                    <h4>Portfolio Polish - Final 2 months</h4>
+                    <ul>
+                        <li>Clean up GitHub (READMEs, documentation)</li>
+                        <li>Create personal website/portfolio</li>
+                        <li>Write blog posts about projects (Medium/personal blog)</li>
+                        <li>Prepare for Imperial interviews if needed</li>
+                    </ul>
+                    
+                    <p style="margin-top: 15px; padding: 15px; background: #fffaf0; border-radius: 8px;">
+                        <strong>Study Schedule:</strong> 10-15 hours/week | Heavy project work | This is your capstone phase before Imperial
+                    </p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📖 Core Resources by Phase</h2>
+                
+                <h3>Books</h3>
+                <ul>
+                    <li><strong>AIMA (Russell & Norvig)</strong> - Your starting point ✅</li>
+                    <li><strong>Deep Learning (Goodfellow et al.)</strong> - Free online, reference for Phase 2-3</li>
+                    <li><strong>Hands-On Machine Learning (Géron)</strong> - Practical implementations</li>
+                    <li><strong>Reinforcement Learning (Sutton & Barto)</strong> - Free online, Phase 3</li>
+                </ul>
+                
+                <h3>Online Courses (Most are free or cheap)</h3>
+                <ul>
+                    <li><strong>Coursera:</strong> Andrew Ng ML, Deep Learning Specialization, NLP Specialization</li>
+                    <li><strong>Fast.ai:</strong> Practical Deep Learning (completely free!)</li>
+                    <li><strong>MIT OCW:</strong> Linear Algebra (Gilbert Strang), free lectures</li>
+                    <li><strong>Stanford CS229:</strong> ML course materials (free online)</li>
+                </ul>
+                
+                <h3>Platforms for Practice</h3>
+                <ul>
+                    <li><strong>Kaggle:</strong> Competitions, datasets, notebooks</li>
+                    <li><strong>HuggingFace:</strong> NLP models, datasets, deploy demos</li>
+                    <li><strong>Papers with Code:</strong> Latest research + implementations</li>
+                    <li><strong>GitHub:</strong> Your portfolio + open source contributions</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>⏰ Weekly Study Schedule Template</h2>
+                
+                <h3>Typical Study Week (adjust based on phase)</h3>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;"><strong>Day</strong></td>
+                        <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;"><strong>Study Activity</strong></td>
+                        <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;"><strong>Time</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Monday</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Reading/Theory (before or after gym)</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">1 hour</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Tuesday</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Coding practice (after football)</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">1 hour</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Wednesday</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">FASTING DAY - Light review or videos (optional)</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">0-30 mins</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Thursday</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Reading/Theory (after gym)</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">1 hour</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Friday</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Implementation/Coding (after gym)</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">1-1.5 hours</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Saturday</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">FASTING DAY - Rest from studying</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">0 mins</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Sunday</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Project work (before/after tennis)</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">2-3 hours</td>
+                    </tr>
+                </table>
+                
+                <p style="margin-top: 15px; color: #718096;"><strong>Total weekly hours:</strong> 7-10 hours (sustainable pace for 28 months)</p>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 Portfolio Projects Summary</h2>
+                <p style="margin-bottom: 10px;">By May 2028, you'll have built:</p>
+                <ol>
+                    <li><strong>Classic ML Pipeline</strong> - Kaggle competition, showcases fundamentals</li>
+                    <li><strong>Computer Vision App</strong> - CNN-based classifier with deployment</li>
+                    <li><strong>NLP Application</strong> - BERT/GPT fine-tuning with API</li>
+                    <li><strong>Compliance AI Agent</strong> - Your flagship project for Imperial + future startup</li>
+                    <li><strong>Open Source Contributions</strong> - Shows you can work with production codebases</li>
+                </ol>
+                <p style="margin-top: 15px;">All documented on GitHub with READMEs, deployed demos where possible, and blog posts explaining your approach.</p>
+            </div>
+            
+            <div class="section">
+                <h2>💡 Study Tips for Long-Term Success</h2>
+                <ul>
+                    <li><strong>Active Learning:</strong> Don't just watch videos - implement everything from scratch</li>
+                    <li><strong>Teach Others:</strong> Explain concepts to friends, write blog posts, make YouTube videos</li>
+                    <li><strong>Consistency > Intensity:</strong> 1 hour daily beats 7-hour weekend cramming</li>
+                    <li><strong>Build in Public:</strong> Share progress on Twitter/LinkedIn, get feedback</li>
+                    <li><strong>Join Communities:</strong> ML Discord servers, Reddit r/MachineLearning, local meetups</li>
+                    <li><strong>Track Progress:</strong> Keep learning journal (separate from evening journal)</li>
+                    <li><strong>Adjust as Needed:</strong> If phase takes longer, that's fine - depth > speed</li>
+                </ul>
+            </div>
+            
+            <div class="tip">
+                <strong>💡 The Long Game:</strong> 28 months of consistent learning = 700-1,000 hours of study. That's enough to go from beginner to genuinely skilled ML engineer. By May 2028, you'll be Imperial-ready and have a portfolio that impresses AGI research labs. Stay patient, stay consistent! 🚀
+            </div>
+        </div>
+        
+        <!-- NUTRITION TAB -->
+        <div id="nutrition" class="tab-content">
+            <h2>Body Recomposition Meal Plan</h2>
+            <p style="margin-bottom: 20px; color: #718096;">Gluten-free, dairy-free, high protein for losing 15-20kg fat + building muscle</p>
+            
+            <div class="section">
+                <h2>🎯 Your Body Recomposition Timeline</h2>
+                <p style="margin-bottom: 15px; color: #4a5568;"><strong>Start:</strong> ~81kg, ~26% body fat | <strong>Target:</strong> ~66kg, 10-12% body fat | <strong>Timeline:</strong> 18-24 weeks (4.5-6 months)</p>
+                
+                <h3>Monthly Milestones (Target: Late July/Early August 2026)</h3>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #48bb78;">
+                    <h4 style="color: #48bb78; margin-bottom: 10px;">Month 1 (Feb 2026) - The Kickstart</h4>
+                    <ul>
+                        <li><strong>Target Weight:</strong> 78-79kg (-2-3kg)</li>
+                        <li><strong>Body Fat:</strong> ~24%</li>
+                        <li><strong>What to Expect:</strong> Quick initial drop (water weight + fat), energy adapting to fasting, strength maintained</li>
+                        <li><strong>Focus:</strong> Build the routine, nail meal prep, establish gym consistency</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #4299e1;">
+                    <h4 style="color: #4299e1; margin-bottom: 10px;">Month 2 (Mar 2026) - Momentum Building</h4>
+                    <ul>
+                        <li><strong>Target Weight:</strong> 75-76kg (-3kg from Month 1)</li>
+                        <li><strong>Body Fat:</strong> ~21-22%</li>
+                        <li><strong>What to Expect:</strong> Face slimming noticeably, clothes fitting better, fasting feels easier</li>
+                        <li><strong>Focus:</strong> Progressive overload in gym, continue AIMA chapters 3-4</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #9f7aea;">
+                    <h4 style="color: #9f7aea; margin-bottom: 10px;">Month 3 (Apr 2026) - Visible Changes</h4>
+                    <ul>
+                        <li><strong>Target Weight:</strong> 72-73kg (-3kg from Month 2)</li>
+                        <li><strong>Body Fat:</strong> ~19-20%</li>
+                        <li><strong>What to Expect:</strong> Muscle definition appearing, people noticing your progress, ab outline visible</li>
+                        <li><strong>Focus:</strong> Maintain strength, increase workout intensity slightly</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ed8936;">
+                    <h4 style="color: #ed8936; margin-bottom: 10px;">Month 4 (May 2026) - The Grind</h4>
+                    <ul>
+                        <li><strong>Target Weight:</strong> 70-71kg (-2-3kg from Month 3)</li>
+                        <li><strong>Body Fat:</strong> ~16-17%</li>
+                        <li><strong>What to Expect:</strong> Progress slowing (normal!), veins showing in arms, jawline sharp</li>
+                        <li><strong>Focus:</strong> Stay patient, trust the process, consider refeed day once a week</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #f56565;">
+                    <h4 style="color: #f56565; margin-bottom: 10px;">Month 5 (Jun 2026) - Getting Lean</h4>
+                    <ul>
+                        <li><strong>Target Weight:</strong> 68-69kg (-2kg from Month 4)</li>
+                        <li><strong>Body Fat:</strong> ~13-14%</li>
+                        <li><strong>What to Expect:</strong> Abs clearly visible, muscle separation showing, strength might dip slightly</li>
+                        <li><strong>Focus:</strong> High protein (180g+), prioritize sleep, manage hunger strategically</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #667eea;">
+                    <h4 style="color: #667eea; margin-bottom: 10px;">Month 6 (Jul-Aug 2026) - Final Push</h4>
+                    <ul>
+                        <li><strong>Target Weight:</strong> 66-67kg (-2kg from Month 5)</li>
+                        <li><strong>Body Fat:</strong> 10-12% ✅ GOAL ACHIEVED</li>
+                        <li><strong>What to Expect:</strong> Shredded look, full six-pack, vascularity, athletic physique</li>
+                        <li><strong>Focus:</strong> Perfect final weeks, take progress photos, plan maintenance phase</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📊 Weekly Check-In Protocol</h2>
+                <ul>
+                    <li><strong>Every Monday Morning:</strong> Weigh yourself (same time, after bathroom, before eating)</li>
+                    <li><strong>Every 2 Weeks:</strong> Take progress photos (front, side, back in same lighting)</li>
+                    <li><strong>Track:</strong> Weight trend (weekly average, not daily fluctuations)</li>
+                    <li><strong>Adjust if needed:</strong> If weight loss stalls for 2 weeks, reduce eating day calories by 100-150</li>
+                </ul>
+            </div>
+            
+            <div class="tip">
+                <strong>💡 Reality Check:</strong> This timeline assumes 90% consistency. Life happens - if you have a bad week, don't panic! One week off track might add 1-2 weeks to your timeline, but you'll still get there. The key is getting back on track immediately.
+            </div>
+            
+            <div class="section">
+                <h2>Your Personalized Macros (81kg, 165cm, 25M)</h2>
+                <p style="margin-bottom: 15px; color: #4a5568;"><strong>Goal:</strong> Lose 15-20kg fat while building muscle | Target weight: 61-66kg</p>
+                
+                <h3>Training Days (Mon, Thu, Fri, Sun, Tue) - 5 days</h3>
+                <ul>
+                    <li><strong>Calories:</strong> 2,100-2,200/day</li>
+                    <li><strong>Protein:</strong> 170-180g/day</li>
+                    <li><strong>Carbs:</strong> 180-200g/day (fuel for training!)</li>
+                    <li><strong>Fats:</strong> 55-65g/day</li>
+                </ul>
+                
+                <h3>Fasting Days (Wed, Sat) - 2 days</h3>
+                <ul>
+                    <li><strong>Calories:</strong> 0 (complete fast)</li>
+                    <li><strong>Stay hydrated:</strong> Water, black coffee, green tea only</li>
+                </ul>
+                
+                <p style="margin-top: 15px; color: #718096; font-size: 0.9em;">*With 2 fasting days, your weekly average is ~1,500 cal/day (huge deficit for fat loss!). Higher calories on training days preserve muscle and fuel performance.</p>
+                
+                <h3>⚠️ Macro Adjustments as You Lean Out</h3>
+                <ul>
+                    <li><strong>Month 4 onwards:</strong> As weight drops, your calorie needs decrease. Reduce eating day calories to 1,900-2,000 if progress stalls.</li>
+                    <li><strong>Keep protein high:</strong> Actually increase to 180-190g in final months to preserve muscle</li>
+                    <li><strong>Carbs around workouts:</strong> Eat most carbs pre/post workout for energy and recovery</li>
+                </ul>
+            </div>
+            
+            <div class="meal-plan">
+                <div class="meal-card">
+                    <h4>🌅 Breakfast (450 cal)</h4>
+                    <ul>
+                        <li>4 whole eggs scrambled</li>
+                        <li>1 cup spinach or vegetables</li>
+                        <li>100g chicken breast (leftover from meal prep)</li>
+                        <li>1 slice gluten-free toast</li>
+                    </ul>
+                    <p><em>45g protein | 25g carbs | 22g fat</em></p>
+                </div>
+                
+                <div class="meal-card">
+                    <h4>🥗 Lunch (550 cal)</h4>
+                    <ul>
+                        <li>250g grilled chicken breast</li>
+                        <li>200g white rice or sweet potato</li>
+                        <li>Mixed vegetables (broccoli, peppers)</li>
+                        <li>1 tbsp olive oil</li>
+                    </ul>
+                    <p><em>60g protein | 50g carbs | 15g fat</em></p>
+                </div>
+                
+                <div class="meal-card">
+                    <h4>🍽️ Dinner (550 cal)</h4>
+                    <ul>
+                        <li>250g grilled chicken breast</li>
+                        <li>150g white rice or quinoa</li>
+                        <li>200g mixed vegetables</li>
+                        <li>½ avocado or 1 tbsp olive oil</li>
+                    </ul>
+                    <p><em>60g protein | 45g carbs | 18g fat</em></p>
+                </div>
+                
+                <div class="meal-card">
+                    <h4>🍎 Snacks (300 cal)</h4>
+                    <ul>
+                        <li>Protein shake: 1 scoop + water (GF/DF)</li>
+                        <li>Apple or banana</li>
+                        <li>Small handful almonds (15g)</li>
+                    </ul>
+                    <p><em>30g protein | 30g carbs | 8g fat</em></p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🍗 Super Simple Chicken Meal Prep (Sunday 2 hours)</h2>
+                <p style="margin-bottom: 15px; color: #4a5568;">One protein, maximum efficiency!</p>
+                
+                <h3>Shopping List (Weekly)</h3>
+                <ul>
+                    <li><strong>Chicken:</strong> 3.5-4kg chicken breasts (14-16 portions x 250g)</li>
+                    <li><strong>Carbs:</strong> 2kg white rice OR 3kg sweet potatoes</li>
+                    <li><strong>Veggies:</strong> 2kg broccoli, 1kg peppers, 1kg green beans, spinach</li>
+                    <li><strong>Eggs:</strong> 30 eggs (for breakfasts)</li>
+                    <li><strong>Fats:</strong> Olive oil, 3-4 avocados, almonds</li>
+                    <li><strong>Extras:</strong> Gluten-free bread, protein powder, fruit</li>
+                </ul>
+                
+                <h3>Prep Steps (All in 2 hours!)</h3>
+                <ol>
+                    <li><strong>Season chicken (5 min):</strong> Season all breasts with salt, pepper, paprika, garlic powder</li>
+                    <li><strong>Oven bake chicken (40 min):</strong> Bake at 200°C for 25-30 mins. While it cooks...</li>
+                    <li><strong>Cook rice (30 min):</strong> Make 1.5kg cooked rice (or roast sweet potatoes)</li>
+                    <li><strong>Steam vegetables (15 min):</strong> Steam all broccoli & green beans</li>
+                    <li><strong>Portion everything (30 min):</strong>
+                        <ul>
+                            <li>10-12 meal containers: 250g chicken + rice + veggies</li>
+                            <li>Store 2-3 chicken breasts separately for breakfasts</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <h3>Meal Prep Pro Tips</h3>
+                <ul>
+                    <li>Cook chicken in 2 batches if needed (flavor variety: try different seasonings)</li>
+                    <li>Keep 2-3 meals in fridge, freeze the rest (thaw night before)</li>
+                    <li>Hard boil 12 eggs Sunday for quick breakfast protein</li>
+                    <li>Prep takes 2 hours = saves 10+ hours during the week</li>
+                </ul>
+                
+                <h3>Easy Chicken Seasoning Variations</h3>
+                <ul>
+                    <li><strong>Batch 1:</strong> Italian - oregano, basil, garlic, lemon</li>
+                    <li><strong>Batch 2:</strong> Mexican - cumin, chili powder, lime</li>
+                    <li><strong>Batch 3:</strong> Asian - ginger, garlic, sesame oil, soy sauce (GF)</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>Gluten & Dairy-Free Staples</h2>
+                <ul>
+                    <li><strong>Protein:</strong> Chicken breast, eggs, protein powder (whey isolate or plant-based)</li>
+                    <li><strong>Carbs:</strong> White rice, sweet potato, quinoa, GF oats, rice cakes, GF bread</li>
+                    <li><strong>Fats:</strong> Avocado, almonds, walnuts, olive oil, coconut oil</li>
+                    <li><strong>Veggies:</strong> Broccoli, spinach, peppers, green beans, salad mix</li>
+                    <li><strong>Snacks:</strong> Fruit (apples, bananas), rice cakes, hummus, nuts</li>
+                </ul>
+            </div>
+            
+            <div class="tip">
+                <strong>💡 Pro Tip:</strong> On gym days (Mon/Wed/Thu/Fri), eat slightly more carbs (add 50g rice to meals). On rest days, reduce carbs slightly. Chicken + rice + veggies = ultimate body recomp combo!
+            </div>
+        </div>
+        
+        <!-- FINANCE TAB -->
+        <div id="finance" class="tab-content">
+            <h2>💰 Financial Recovery & Imperial Funding Plan</h2>
+            <p style="margin-bottom: 20px; color: #718096;">28-month journey: Feb 2026 → Sept 2028 | Goal: Self-fund Imperial master's</p>
+            
+            <div class="stats" style="margin-bottom: 30px;">
+                <div class="stat-card" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);">
+                    <div class="stat-label">Target Savings</div>
+                    <div class="stat-number">£42-54k</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);">
+                    <div class="stat-label">Master's Loan</div>
+                    <div class="stat-number">£13,206</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);">
+                    <div class="stat-label">Total Available</div>
+                    <div class="stat-number">£55-67k</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📊 Your Current Financial Snapshot</h2>
+                
+                <h3>Monthly Income & Spending (Current - Apr 2026)</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 15px 0;">
+                    <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #48bb78;">
+                        <h4 style="color: #48bb78; margin-bottom: 10px;">Income</h4>
+                        <p style="font-size: 1.5em; font-weight: bold; color: #2d3748;">£1,885/month</p>
+                        <p style="font-size: 0.9em; color: #718096;">Take-home after tax</p>
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #4299e1;">
+                        <h4 style="color: #4299e1; margin-bottom: 10px;">Spending</h4>
+                        <p style="font-size: 1.5em; font-weight: bold; color: #2d3748;">£1,047/month</p>
+                        <p style="font-size: 0.9em; color: #718096;">After cutting subscriptions</p>
+                    </div>
+                </div>
+                
+                <h3>Current Monthly Budget Breakdown</h3>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;"><strong>Category</strong></td>
+                        <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right;"><strong>Cost</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Rent</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£400</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Car + Insurance (to mum)</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£270</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Fuel</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£100</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Phone</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£25</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Gym</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£30</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">iPhone contract</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£50</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Netflix</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£13</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Spotify</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£13</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Groceries (dad helps!)</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£71</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Haircut</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£12</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Tennis</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£40</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Football</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£28</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 2px solid #4299e1;">Misc</td>
+                        <td style="padding: 8px; border-bottom: 2px solid #4299e1; text-align: right;">£50</td>
+                    </tr>
+                    <tr style="background: #ebf8ff;">
+                        <td style="padding: 10px;"><strong>TOTAL</strong></td>
+                        <td style="padding: 10px; text-align: right;"><strong>£1,102</strong></td>
+                    </tr>
+                </table>
+                
+                <p style="color: #718096; font-size: 0.9em; margin-top: 10px;">
+                    <strong>Cuts to make NOW:</strong> Cancel Amazon Prime (£9), YouTube Premium (£26), ChatGPT Plus (£20) = Save £55/month<br>
+                    <strong>New spending:</strong> £1,047/month | <strong>Monthly savings:</strong> £838/month
+                </p>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 Progressive Savings Strategy (28 Months)</h2>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #48bb78;">
+                    <h4 style="color: #48bb78; margin-bottom: 10px;">Phase 1: Feb - Apr 2026 (3 months)</h4>
+                    <p><strong>Income:</strong> £1,885/month | <strong>Spending:</strong> £1,047/month | <strong>Savings:</strong> £838/month</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Lifestyle:</strong> Comfortable! Keep tennis, football, Spotify, Netflix</li>
+                        <li><strong>What to cut:</strong> Amazon Prime, YouTube Premium, ChatGPT Plus</li>
+                        <li><strong>Total saved:</strong> £2,514</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #4299e1;">
+                    <h4 style="color: #4299e1; margin-bottom: 10px;">Phase 2: May 2026 - Apr 2027 (12 months)</h4>
+                    <p><strong>Income:</strong> £2,200-2,500/month | <strong>Spending:</strong> £979/month | <strong>Savings:</strong> £1,221-1,521/month</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Lifestyle:</strong> Tighter - no sports but keep social life</li>
+                        <li><strong>What to cut:</strong> Tennis (£40), Football (£28)</li>
+                        <li><strong>Keep:</strong> Spotify for gym/commute, Netflix for dates</li>
+                        <li><strong>Total saved:</strong> £14,652-18,252</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #9f7aea;">
+                    <h4 style="color: #9f7aea; margin-bottom: 10px;">Phase 3: May 2027 - Sept 2028 (16 months)</h4>
+                    <p><strong>Income:</strong> £2,500-3,000/month | <strong>Spending:</strong> £949/month | <strong>Savings:</strong> £1,551-2,051/month</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Lifestyle:</strong> Monk mode - minimal discretionary spending</li>
+                        <li><strong>What to cut:</strong> Reduce misc from £50 to £20</li>
+                        <li><strong>Focus:</strong> Final push to Imperial - finish apprenticeship strong</li>
+                        <li><strong>Total saved:</strong> £24,816-32,816</li>
+                    </ul>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 12px; margin: 20px 0;">
+                    <h3 style="color: white; margin-bottom: 15px;">💎 Total Saved by Sept 2028</h3>
+                    <p style="font-size: 2em; font-weight: bold; margin: 10px 0;">£41,982 - £53,582</p>
+                    <p style="opacity: 0.9;">Plus Master's Loan: £13,206</p>
+                    <p style="font-size: 1.5em; font-weight: bold; margin-top: 15px; border-top: 2px solid rgba(255,255,255,0.3); padding-top: 15px;">
+                        Total Available: £55,188 - £66,788
+                    </p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🎓 Imperial College London - Funding Breakdown</h2>
+                
+                <h3>Estimated Costs (MSc Machine Learning & AI)</h3>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;"><strong>Item</strong></td>
+                        <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right;"><strong>Cost</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Tuition fees (full program)</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£35,000-40,000</td>
+                    </tr>
+                    <tr style="background: #f7fafc;">
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Accommodation (12 months)</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£10,000-13,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0;">Food & living expenses</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: right;">£5,000-7,000</td>
+                    </tr>
+                    <tr style="background: #ebf8ff;">
+                        <td style="padding: 10px; border-bottom: 2px solid #4299e1;"><strong>TOTAL NEEDED</strong></td>
+                        <td style="padding: 10px; border-bottom: 2px solid #4299e1; text-align: right;"><strong>£50,000-60,000</strong></td>
+                    </tr>
+                </table>
+                
+                <h3>Your Funding Sources</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+                    <div style="background: #f0fff4; padding: 15px; border-radius: 8px; border-left: 4px solid #48bb78;">
+                        <h4 style="color: #48bb78;">Conservative Scenario</h4>
+                        <p style="margin: 10px 0;"><strong>Your savings:</strong> £41,982</p>
+                        <p style="margin: 10px 0;"><strong>Master's loan:</strong> £13,206</p>
+                        <p style="margin: 10px 0;"><strong>Total:</strong> £55,188</p>
+                        <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #48bb78;">
+                            <strong>vs £60k needed:</strong><br>
+                            <span style="color: #f56565;">Shortfall: £4,812</span>
+                        </p>
+                    </div>
+                    
+                    <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; border-left: 4px solid #4299e1;">
+                        <h4 style="color: #4299e1;">Optimistic Scenario</h4>
+                        <p style="margin: 10px 0;"><strong>Your savings:</strong> £53,582</p>
+                        <p style="margin: 10px 0;"><strong>Master's loan:</strong> £13,206</p>
+                        <p style="margin: 10px 0;"><strong>Total:</strong> £66,788</p>
+                        <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #4299e1;">
+                            <strong>vs £50k needed:</strong><br>
+                            <span style="color: #48bb78;">Surplus: £16,788</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📈 Potential Bonus Savings</h2>
+                <ul>
+                    <li><strong>Car insurance reduction:</strong> When you turn 26 + build no-claims, insurance could drop £30-50/month = £360-800 extra saved</li>
+                    <li><strong>Dad's contribution:</strong> Covering protein, oil, and half your chicken/eggs = £59/month value = £1,652 total over 28 months</li>
+                    <li><strong>Salary increases exceed estimates:</strong> Could save even more in Phase 3</li>
+                    <li><strong>Imperial scholarships:</strong> Apply for merit-based funding (competitive but worth trying)</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 Weekly Money Check-In Routine</h2>
+                <ol>
+                    <li><strong>Every Sunday evening (5 mins):</strong>
+                        <ul>
+                            <li>Check bank balance</li>
+                            <li>Log savings for the month</li>
+                            <li>Note any unusual expenses</li>
+                        </ul>
+                    </li>
+                    <li><strong>Monthly (10 mins):</strong>
+                        <ul>
+                            <li>Calculate actual savings vs target</li>
+                            <li>Update running total toward £42-54k goal</li>
+                            <li>Adjust if needed (but stick to plan!)</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+            
+            <div class="section">
+                <h2>💳 Credit Score Recovery</h2>
+                <p style="margin-bottom: 10px;"><strong>Current situation:</strong> Defaulted student account from 2023 (now paid off)</p>
+                
+                <h3>Natural Recovery Timeline</h3>
+                <ul>
+                    <li><strong>Now - 6 months:</strong> Score gradually improving as default ages</li>
+                    <li><strong>6-12 months:</strong> Noticeable improvement (default is 1-2 years old)</li>
+                    <li><strong>12-24 months:</strong> Score approaching "fair" territory</li>
+                    <li><strong>After 6 years:</strong> Default completely removed from record</li>
+                </ul>
+                
+                <h3>What You Should Do</h3>
+                <ul>
+                    <li>✅ Keep overdraft usage under £500 (shows responsible credit use)</li>
+                    <li>✅ Pay all bills on time (phone, subscriptions, etc.)</li>
+                    <li>✅ Don't apply for new credit unless necessary</li>
+                    <li>✅ Register to vote (improves credit score)</li>
+                    <li>❌ Don't close your student account (length of credit history helps)</li>
+                </ul>
+            </div>
+            
+            <div class="tip">
+                <strong>💡 Money Mindset:</strong> You're making a 28-month investment in your future. Every £1 saved now = £10+ earned back as an ML engineer. The sacrifices are temporary, the career benefits are permanent. Stay focused on Sept 2028!
+            </div>
+        </div>
+        
+        <!-- JOURNAL TAB -->
+        <div id="journal" class="tab-content">
+            <h2>📔 Daily Journal</h2>
+            <p style="margin-bottom: 20px; color: #718096;">Track your progress, reflect on your day, and stay motivated</p>
+            
+            <div class="section">
+                <h2>✍️ Today's Entry</h2>
+                <p style="margin-bottom: 15px; color: #718096;">Write 2-3 sentences about your day. What went well? What can improve tomorrow?</p>
+                
+                <div style="background: #f7fafc; padding: 25px; border-radius: 12px; border: 2px solid #e2e8f0;">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #2d3748;">Date</label>
+                        <input type="date" id="journalDate" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #2d3748;">One win from today:</label>
+                        <input type="text" id="journalWin" placeholder="e.g., Completed gym session, finished AIMA chapter 1..." style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #2d3748;">One thing to improve:</label>
+                        <input type="text" id="journalImprove" placeholder="e.g., Got distracted during study, overspent on lunch..." style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #2d3748;">Tomorrow's intention:</label>
+                        <input type="text" id="journalIntention" placeholder="e.g., Focus on Chapter 2, stick to meal prep..." style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #2d3748;">Additional notes (optional):</label>
+                        <textarea id="journalNotes" placeholder="Any other thoughts, feelings, or observations..." style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; min-height: 100px; font-family: inherit;"></textarea>
+                    </div>
+                    
+                    <button onclick="saveJournalEntry()" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        💾 Save Entry
+                    </button>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📖 Past Entries</h2>
+                <div style="margin-bottom: 15px; display: flex; gap: 10px; align-items: center;">
+                    <input type="text" id="searchJournal" placeholder="Search entries..." style="flex: 1; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px;">
+                    <button onclick="searchEntries()" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        🔍 Search
+                    </button>
+                    <button onclick="showAllEntries()" style="padding: 10px 20px; background: #4a5568; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Show All
+                    </button>
+                </div>
+                
+                <div id="journalHistory" style="max-height: 600px; overflow-y: auto;">
+                    <p style="text-align: center; color: #718096; padding: 40px;">No entries yet. Start journaling above! ✍️</p>
+                </div>
+            </div>
+            
+            <div class="tip">
+                <strong>💡 Journaling Tips:</strong> 
+                <ul style="margin-top: 10px;">
+                    <li>Write every evening before bed (21:00-21:30)</li>
+                    <li>Be honest - this is for you, not anyone else</li>
+                    <li>Keep it brief - 2-3 sentences per prompt is perfect</li>
+                    <li>Review past entries monthly to see your progress</li>
+                    <li>Don't judge yourself - bad days happen, what matters is learning</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- MINDFULNESS TAB -->
+        <div id="mindfulness" class="tab-content">
+            <h2>🧘 Mindfulness & Mental Wellness</h2>
+            <p style="margin-bottom: 20px; color: #718096;">5-10 minutes daily to manage stress, improve focus, and stay balanced</p>
+            
+            <div class="section">
+                <h2>Your Daily Routine</h2>
+                
+                <h3>🌅 Morning Meditation (5 minutes) - Right After Waking</h3>
+                <p style="margin-bottom: 10px;"><strong>Time:</strong> 5:00-5:05 AM (before anything else)</p>
+                <p style="margin-bottom: 15px;"><strong>Why morning?</strong> Sets the tone for your day, mind is clearest, builds discipline</p>
+                
+                <div style="background: #f0fff4; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                    <h4 style="color: #48bb78; margin-bottom: 10px;">Simple 5-Minute Practice</h4>
+                    <ol>
+                        <li><strong>Sit comfortably</strong> (bed edge, chair, floor - doesn't matter)</li>
+                        <li><strong>Set timer</strong> for 5 minutes on your phone</li>
+                        <li><strong>Close eyes</strong> and breathe naturally</li>
+                        <li><strong>Focus on breath</strong> - in through nose, out through mouth</li>
+                        <li><strong>When mind wanders</strong> (it will!) - gently return focus to breath</li>
+                        <li><strong>That's it!</strong> Don't judge yourself, just sit and breathe</li>
+                    </ol>
+                </div>
+                
+                <h3>🌙 Evening Journaling (2-3 minutes) - Before Sleep</h3>
+                <p style="margin-bottom: 10px;"><strong>Time:</strong> 21:00-21:30 (before bed routine)</p>
+                <p style="margin-bottom: 15px;"><strong>Why evening?</strong> Process the day, clear your mind, sleep better</p>
+                
+                <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                    <h4 style="color: #4299e1; margin-bottom: 10px;">Quick Journal Format (3 Lines Max)</h4>
+                    <ol>
+                        <li><strong>One win from today:</strong> "Completed gym session" or "Studied 30 mins AIMA"</li>
+                        <li><strong>One thing to improve:</strong> "Got distracted during study" or "Ate too much at lunch"</li>
+                        <li><strong>Tomorrow's intention:</strong> "Focus on deadlifts" or "Read Chapter 5"</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #4a5568; font-style: italic;">
+                        Keep it SHORT - this isn't a diary, it's reflection. 2-3 sentences total.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Why This Matters for YOU</h2>
+                <p style="margin-bottom: 10px;">You're juggling a lot:</p>
+                <ul>
+                    <li>Full-time apprenticeship (40 hours/week)</li>
+                    <li>Gym 3x/week + football + tennis</li>
+                    <li>Studying AIMA (5-7 hours/week)</li>
+                    <li>Aggressive savings plan (tight budget stress)</li>
+                    <li>Body recomp (losing 15-20kg)</li>
+                    <li>Relationship with girlfriend</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Without mental wellness practices, you WILL burn out.</strong></p>
+                <p style="margin-top: 10px;">5 mins meditation + 3 mins journaling = 8 minutes daily investment to:</p>
+                <ul>
+                    <li>Reduce stress and anxiety</li>
+                    <li>Improve focus for AIMA studying</li>
+                    <li>Better sleep quality (crucial for body recomp!)</li>
+                    <li>Process emotions around tight budget</li>
+                    <li>Stay motivated through 28-month plan</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>📱 Recommended Free Apps</h2>
+                <ul>
+                    <li><strong>Insight Timer</strong> (meditation) - Completely free, thousands of guided meditations</li>
+                    <li><strong>Headspace</strong> (meditation) - Free basics course is excellent</li>
+                    <li><strong>Waking Up</strong> (meditation) - Free scholarship available if you email them</li>
+                    <li><strong>Day One</strong> (journaling) - Free version works great for simple entries</li>
+                    <li><strong>Or just use:</strong> Notes app on iPhone + Phone timer for meditation</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 Building the Habit</h2>
+                
+                <h3>Week 1: Just Show Up</h3>
+                <ul>
+                    <li>Don't worry about "doing it right"</li>
+                    <li>Goal: Sit for 5 mins in morning, write 1 sentence at night</li>
+                    <li>Success = doing it, not perfection</li>
+                </ul>
+                
+                <h3>Week 2-4: Consistency Over Quality</h3>
+                <ul>
+                    <li>Miss a day? No problem, do it the next day</li>
+                    <li>Mind wandering during meditation? Normal!</li>
+                    <li>Journal feels pointless? Keep going anyway</li>
+                </ul>
+                
+                <h3>Month 2+: You'll Notice the Difference</h3>
+                <ul>
+                    <li>Calmer during stressful work situations</li>
+                    <li>Better focus during AIMA study sessions</li>
+                    <li>More aware of spending triggers</li>
+                    <li>Clearer thinking about Imperial plans</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>⚠️ When to Seek Extra Support</h2>
+                <p>If you notice any of these, consider talking to someone (GP, counselor, or trusted friend):</p>
+                <ul>
+                    <li>Persistent low mood lasting 2+ weeks</li>
+                    <li>Complete loss of interest in things you normally enjoy</li>
+                    <li>Significant sleep changes (insomnia or sleeping too much)</li>
+                    <li>Overwhelming anxiety about money/future</li>
+                    <li>Relationship strain due to your stress</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Your apprenticeship may offer employee assistance program (EAP)</strong> - free confidential counseling. Check your employee benefits!</p>
+            </div>
+            
+            <div class="tip">
+                <strong>💡 Remember:</strong> You can't pour from an empty cup. Taking care of your mental health isn't selfish - it's essential for achieving everything else on this plan. 8 minutes a day could be the difference between success and burnout.
+            </div>
+        </div>
+        
+        <!-- TIPS TAB -->
+        <div id="tips" class="tab-content">
+            <div class="section">
+                <h2>🎯 Consistency Tips</h2>
+                <ul>
+                    <li><strong>Track Everything:</strong> Use this tracker daily - it takes 30 seconds</li>
+                    <li><strong>Prepare the Night Before:</strong> Gym bag packed, meals ready, books out</li>
+                    <li><strong>Non-Negotiable Times:</strong> Schedule gym and study like meetings</li>
+                    <li><strong>Rest is Essential:</strong> Sleep 7-8 hours - it's when muscle grows and learning consolidates</li>
+                    <li><strong>Be Flexible:</strong> Missed a day? Don't spiral - just get back on track next day</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>💪 Gym Motivation</h2>
+                <ul>
+                    <li>Progress photos every 2 weeks (visual changes motivate!)</li>
+                    <li>Track weights in an app - seeing strength gains = motivation</li>
+                    <li>Get a gym buddy or accountability partner</li>
+                    <li>Remember: You're already active with football & tennis - gym is just adding structure</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>📚 Study Optimization</h2>
+                <ul>
+                    <li>Pomodoro Technique: 45 min study + 15 min break</li>
+                    <li>Teach someone else what you learned (best retention method)</li>
+                    <li>Join ML/AI communities on Reddit or Discord for accountability</li>
+                    <li>Don't skip the coding - that's where real learning happens</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>🥗 Nutrition Hacks</h2>
+                <ul>
+                    <li>Meal prep on Sunday = saves 5+ hours during the week</li>
+                    <li>If you mess up a meal, just make the next one healthy</li>
+                    <li>Drink 3L water daily (helps with fat loss & recovery)</li>
+                    <li>Weigh yourself same time weekly (morning, after bathroom)</li>
+                    <li>Allow one flexible meal per week (mental health matters!)</li>
+                </ul>
+            </div>
+            
+            <div class="tip">
+                <strong>💡 Remember:</strong> You're building a lifestyle, not following a temporary plan. Progress > Perfection. You've got this! 🚀
+            </div>
+        </div>
+        
+        <!-- TENNIS TAB -->
+        <div id="tennis" class="tab-content">
+            <h2>🎾 Tennis Skill Development (Beginner to Intermediate)</h2>
+            <p style="margin-bottom: 20px; color: #718096;">Sunday sessions + focused practice = rapid improvement in your first year!</p>
+            
+            <div class="section">
+                <h2>6-Month Tennis Progression Plan</h2>
+                <p style="margin-bottom: 15px; color: #4a5568;">You're just a couple weeks in - perfect timing to build proper fundamentals!</p>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #48bb78;">
+                    <h4 style="color: #48bb78; margin-bottom: 10px;">Months 1-2 (Now - Mar 2026) - Fundamentals</h4>
+                    <ul>
+                        <li><strong>Focus:</strong> Grip, stance, basic strokes (forehand, backhand, serve)</li>
+                        <li><strong>Goals:</strong> Consistent rally of 10+ shots, basic serve in the box</li>
+                        <li><strong>Drills:</strong> Wall practice 2x week (15 mins), focus on form over power</li>
+                        <li><strong>Sunday Session:</strong> Play but focus on ONE technique each week</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #4299e1;">
+                    <h4 style="color: #4299e1; margin-bottom: 10px;">Months 3-4 (Apr - May 2026) - Consistency & Movement</h4>
+                    <ul>
+                        <li><strong>Focus:</strong> Footwork, shot placement, volleys</li>
+                        <li><strong>Goals:</strong> Rally 20+ shots, 70% first serve in, basic net play</li>
+                        <li><strong>Drills:</strong> Cross-court rallies, approach shots, split-step practice</li>
+                        <li><strong>Sunday Session:</strong> Play points, not just rallying</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #9f7aea;">
+                    <h4 style="color: #9f7aea; margin-bottom: 10px;">Months 5-6 (Jun - Jul 2026) - Strategy & Spin</h4>
+                    <ul>
+                        <li><strong>Focus:</strong> Topspin, slice, game tactics, match play</li>
+                        <li><strong>Goals:</strong> Play full sets, understand court positioning, add spin to shots</li>
+                        <li><strong>Drills:</strong> Topspin forehand/backhand, drop shots, overhead smashes</li>
+                        <li><strong>Sunday Session:</strong> Competitive matches with scoring</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Weekly Practice Structure</h2>
+                
+                <h3>Sunday Match Day (Your Main Session)</h3>
+                <ul>
+                    <li><strong>Warm-up (10 mins):</strong> Light jogging, arm circles, dynamic stretches</li>
+                    <li><strong>Rally Practice (15 mins):</strong> Forehand to forehand, backhand to backhand - focus on consistency</li>
+                    <li><strong>Technique Focus (20 mins):</strong> Pick ONE stroke to work on (see monthly goals)</li>
+                    <li><strong>Match Play (45-60 mins):</strong> Play sets/games with your partner</li>
+                    <li><strong>Cool Down (5 mins):</strong> Light stretching, especially shoulders and legs</li>
+                </ul>
+                
+                <h3>Optional Mid-Week Practice (Tue or Thu, 15-20 mins)</h3>
+                <p style="color: #718096; margin-bottom: 10px;">If you have time after football/gym, hit a wall or practice serves:</p>
+                <ul>
+                    <li><strong>Wall Rally:</strong> 100 forehands, 100 backhands against a wall (builds consistency)</li>
+                    <li><strong>Serve Practice:</strong> 20 serves focusing on ball toss and follow-through</li>
+                    <li><strong>Shadow Swings:</strong> Practice stroke mechanics without a ball (muscle memory)</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>Essential Skills for Your First 6 Months</h2>
+                
+                <h3>1. The Forehand (Priority #1)</h3>
+                <ul>
+                    <li><strong>Grip:</strong> Eastern or semi-western grip</li>
+                    <li><strong>Stance:</strong> Feet shoulder-width, knees bent, ready position</li>
+                    <li><strong>Swing:</strong> Low to high motion, finish over opposite shoulder</li>
+                    <li><strong>Practice:</strong> 100 reps against wall, 3x per week</li>
+                </ul>
+                
+                <h3>2. The Backhand</h3>
+                <ul>
+                    <li><strong>Two options:</strong> One-handed (elegant) or two-handed (more power/control for beginners)</li>
+                    <li><strong>Recommendation:</strong> Start with two-handed - easier to learn, more consistent</li>
+                    <li><strong>Key:</strong> Rotate shoulders, not just arms</li>
+                    <li><strong>Practice:</strong> 50 reps after forehand practice</li>
+                </ul>
+                
+                <h3>3. The Serve (Hardest to Master)</h3>
+                <ul>
+                    <li><strong>Ball Toss:</strong> Consistent toss = consistent serve. Practice toss alone!</li>
+                    <li><strong>Motion:</strong> Throwing motion (like throwing a ball), not pushing</li>
+                    <li><strong>Contact Point:</strong> Hit the ball at highest point you can reach</li>
+                    <li><strong>Practice:</strong> 20 serves per session, focus on form not speed</li>
+                </ul>
+                
+                <h3>4. Footwork (Often Overlooked!)</h3>
+                <ul>
+                    <li><strong>Split Step:</strong> Small hop as opponent hits - key to quick reactions</li>
+                    <li><strong>Ready Position:</strong> Always return to center of baseline after each shot</li>
+                    <li><strong>Side Shuffle:</strong> Don't cross your feet when moving laterally</li>
+                    <li><strong>Practice:</strong> Footwork ladder drills (YouTube has tons)</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>Quick Improvement Drills (15 mins each)</h2>
+                
+                <h3>Drill 1: Crosscourt Consistency</h3>
+                <p>Rally crosscourt (forehand to forehand or backhand to backhand) with your partner. Goal: 20 consecutive shots without error. Builds rhythm and control.</p>
+                
+                <h3>Drill 2: Serve & Return</h3>
+                <p>One person serves 10 balls, other practices returns. Switch. Focus on getting ball in play, not winners. This is 80% of tennis!</p>
+                
+                <h3>Drill 3: Approach & Volley</h3>
+                <p>Partner feeds short ball, you hit approach shot and move to net for volley. Teaches transition game and net play.</p>
+                
+                <h3>Drill 4: Target Practice</h3>
+                <p>Place cones/targets in corners. Hit 10 forehands to each corner. Develops accuracy and shot placement.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Mental Game Tips for Beginners</h2>
+                <ul>
+                    <li><strong>Focus on Process, Not Results:</strong> "Did I use proper form?" not "Did I win the point?"</li>
+                    <li><strong>One Point at a Time:</strong> Don't dwell on errors, reset after each point</li>
+                    <li><strong>Consistency > Power:</strong> Getting ball back in play beats hitting winners at beginner level</li>
+                    <li><strong>Watch the Pros:</strong> YouTube ATP/WTA highlights - you'll learn positioning and strategy</li>
+                    <li><strong>Be Patient:</strong> Tennis takes time! Most people need 6-12 months to feel "competent"</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>Fitness Benefits from Tennis</h2>
+                <p style="margin-bottom: 10px;">Great news - tennis complements your body recomp perfectly!</p>
+                <ul>
+                    <li><strong>Cardio:</strong> 1 hour of tennis = 400-600 calories burned (counts as your Sunday cardio!)</li>
+                    <li><strong>Agility:</strong> Improves footwork for football too</li>
+                    <li><strong>Core Strength:</strong> Every stroke uses core rotation - complements your gym work</li>
+                    <li><strong>Active Recovery:</strong> Perfect for Sunday after fasting on Saturday</li>
+                </ul>
+            </div>
+            
+            <div class="tip">
+                <strong>💡 Pro Tip:</strong> Record yourself playing (ask someone to film 2 mins). Compare to YouTube pros. You'll spot bad habits immediately! Do this once a month to track improvement.
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load saved data
+        function loadProgress() {
+            const saved = localStorage.getItem('habitProgress');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element && data[key]) {
+                        element.classList.add('completed');
+                    }
+                });
+            }
+            updateStats();
+        }
+        
+        // Save data
+        function saveProgress() {
+            const data = {};
+            document.querySelectorAll('.day-card').forEach(card => {
+                data[card.id] = card.classList.contains('completed');
+            });
+            localStorage.setItem('habitProgress', JSON.stringify(data));
+        }
+        
+        // Toggle completion
+        function toggleComplete(id) {
+            const card = document.getElementById(id);
+            card.classList.toggle('completed');
+            saveProgress();
+            updateStats();
+        }
+        
+        // Update statistics
+        function updateStats() {
+            const gymCards = ['gym-mon', 'gym-thu', 'gym-fri'];
+            const studyCompleted = 0; // Study plan is now long-term, no weekly tracking
+            
+            const gymCompleted = gymCards.filter(id => 
+                document.getElementById(id).classList.contains('completed')
+            ).length;
+            
+            const allCards = document.querySelectorAll('.day-card');
+            const totalCompleted = Array.from(allCards).filter(card => 
+                card.classList.contains('completed')
+            ).length;
+            
+            const overallPercent = Math.round((totalCompleted / allCards.length) * 100);
+            
+            document.getElementById('gymCount').textContent = `${gymCompleted}/3`;
+            document.getElementById('studyCount').textContent = `Track in journal`;
+            document.getElementById('overallProgress').textContent = `${overallPercent}%`;
+        }
+        
+        // Switch tabs
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', loadProgress);
+        
+        // Journal Functions
+        function saveJournalEntry() {
+            const date = document.getElementById('journalDate').value;
+            const win = document.getElementById('journalWin').value;
+            const improve = document.getElementById('journalImprove').value;
+            const intention = document.getElementById('journalIntention').value;
+            const notes = document.getElementById('journalNotes').value;
+            
+            if (!date || !win || !improve || !intention) {
+                alert('Please fill in the date and all three main fields (win, improve, intention)');
+                return;
+            }
+            
+            const entry = {
+                date: date,
+                win: win,
+                improve: improve,
+                intention: intention,
+                notes: notes,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Get existing entries
+            let entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+            
+            // Check if entry for this date already exists
+            const existingIndex = entries.findIndex(e => e.date === date);
+            if (existingIndex >= 0) {
+                if (confirm('An entry for this date already exists. Overwrite it?')) {
+                    entries[existingIndex] = entry;
+                } else {
+                    return;
+                }
+            } else {
+                entries.push(entry);
+            }
+            
+            // Sort by date (newest first)
+            entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Save
+            localStorage.setItem('journalEntries', JSON.stringify(entries));
+            
+            // Clear form
+            document.getElementById('journalWin').value = '';
+            document.getElementById('journalImprove').value = '';
+            document.getElementById('journalIntention').value = '';
+            document.getElementById('journalNotes').value = '';
+            
+            // Reload history
+            loadJournalHistory();
+            
+            // Show success message
+            alert('✅ Entry saved successfully!');
+        }
+        
+        function loadJournalHistory() {
+            const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+            const historyDiv = document.getElementById('journalHistory');
+            
+            if (entries.length === 0) {
+                historyDiv.innerHTML = '<p style="text-align: center; color: #718096; padding: 40px;">No entries yet. Start journaling above! ✍️</p>';
+                return;
+            }
+            
+            let html = '';
+            entries.forEach((entry, index) => {
+                const date = new Date(entry.date);
+                const formattedDate = date.toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                
+                html += `
+                    <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #667eea; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="color: #2d3748; margin: 0;">${formattedDate}</h3>
+                            <button onclick="deleteEntry('${entry.date}')" style="padding: 5px 10px; background: #f56565; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                                🗑️ Delete
+                            </button>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <strong style="color: #48bb78;">✅ Win:</strong> <span style="color: #4a5568;">${entry.win}</span>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <strong style="color: #ed8936;">📈 Improve:</strong> <span style="color: #4a5568;">${entry.improve}</span>
+                        </div>
+                        <div style="margin-bottom: ${entry.notes ? '10px' : '0'};">
+                            <strong style="color: #667eea;">🎯 Tomorrow:</strong> <span style="color: #4a5568;">${entry.intention}</span>
+                        </div>
+                        ${entry.notes ? `<div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+                            <strong style="color: #718096;">📝 Notes:</strong>
+                            <p style="color: #4a5568; margin-top: 5px; white-space: pre-wrap;">${entry.notes}</p>
+                        </div>` : ''}
+                    </div>
+                `;
+            });
+            
+            historyDiv.innerHTML = html;
+        }
+        
+        function deleteEntry(date) {
+            if (!confirm('Are you sure you want to delete this entry?')) {
+                return;
+            }
+            
+            let entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+            entries = entries.filter(e => e.date !== date);
+            localStorage.setItem('journalEntries', JSON.stringify(entries));
+            loadJournalHistory();
+        }
+        
+        function searchEntries() {
+            const searchTerm = document.getElementById('searchJournal').value.toLowerCase();
+            if (!searchTerm) {
+                loadJournalHistory();
+                return;
+            }
+            
+            const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+            const filtered = entries.filter(entry => 
+                entry.win.toLowerCase().includes(searchTerm) ||
+                entry.improve.toLowerCase().includes(searchTerm) ||
+                entry.intention.toLowerCase().includes(searchTerm) ||
+                (entry.notes && entry.notes.toLowerCase().includes(searchTerm))
+            );
+            
+            const historyDiv = document.getElementById('journalHistory');
+            
+            if (filtered.length === 0) {
+                historyDiv.innerHTML = '<p style="text-align: center; color: #718096; padding: 40px;">No entries found matching your search. 🔍</p>';
+                return;
+            }
+            
+            let html = '';
+            filtered.forEach(entry => {
+                const date = new Date(entry.date);
+                const formattedDate = date.toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                
+                html += `
+                    <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #667eea; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="color: #2d3748; margin: 0;">${formattedDate}</h3>
+                            <button onclick="deleteEntry('${entry.date}')" style="padding: 5px 10px; background: #f56565; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                                🗑️ Delete
+                            </button>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <strong style="color: #48bb78;">✅ Win:</strong> <span style="color: #4a5568;">${entry.win}</span>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <strong style="color: #ed8936;">📈 Improve:</strong> <span style="color: #4a5568;">${entry.improve}</span>
+                        </div>
+                        <div style="margin-bottom: ${entry.notes ? '10px' : '0'};">
+                            <strong style="color: #667eea;">🎯 Tomorrow:</strong> <span style="color: #4a5568;">${entry.intention}</span>
+                        </div>
+                        ${entry.notes ? `<div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+                            <strong style="color: #718096;">📝 Notes:</strong>
+                            <p style="color: #4a5568; margin-top: 5px; white-space: pre-wrap;">${entry.notes}</p>
+                        </div>` : ''}
+                    </div>
+                `;
+            });
+            
+            historyDiv.innerHTML = html;
+        }
+        
+        function showAllEntries() {
+            document.getElementById('searchJournal').value = '';
+            loadJournalHistory();
+        }
+        
+        // Set today's date by default
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('journalDate').value = today;
+            loadJournalHistory();
+        });
+    </script>
+</body>
+</html>
